@@ -17,6 +17,11 @@
       <a href="index.html">Generate Email</a>
       <a href="templates.html">Templates &amp; Settings</a>
     </nav>
+    <div class="cloud-status" id="cloudStatus">
+      <span id="cloudStatusText" class="text-muted">Local only (Firebase not configured)</span>
+      <button class="btn secondary small" id="cloudSignInBtn">Sign in with Google</button>
+      <button class="btn secondary small" id="cloudSignOutBtn" style="display:none;">Sign out</button>
+    </div>
   </div>
 </header>
 
@@ -175,10 +180,15 @@
 
 <footer class="app-footer">Runs entirely in your browser — no data leaves your device.</footer>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script src="assets/js/firebase-config.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/cloud.js"></script>
 <script src="assets/js/storage.js"></script>
 <script src="assets/js/render.js"></script>
 <script src="assets/js/eml.js"></script>
-<script src="assets/js/ui.js"></script>
 <script src="assets/js/builder.js"></script>
 </body>
 </html>

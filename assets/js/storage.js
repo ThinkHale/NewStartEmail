@@ -28,7 +28,17 @@ function uid() {
   return 'id_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
 }
 
+// loadTemplates()/saveTemplates() are the public API the rest of the app
+// uses; they read/write localStorage as usual and, when cloud.js has a
+// signed-in Firebase user, mirror saves up to Firestore too. loadTemplates()
+// waits for cloudReady (resolved by cloud.js once any initial cloud data has
+// been pulled into the local cache) so callers always see synced data.
 async function loadTemplates() {
+  if (typeof cloudReady !== 'undefined') await cloudReady;
+  return loadLocalTemplates();
+}
+
+async function loadLocalTemplates() {
   const raw = localStorage.getItem(STORAGE_KEYS.templates);
   if (raw) {
     try { return JSON.parse(raw); } catch (e) { /* fall through to seed */ }
@@ -37,15 +47,27 @@ async function loadTemplates() {
     const res = await fetch('data/templates.json');
     if (!res.ok) throw new Error('seed fetch failed');
     const seed = await res.json();
-    saveTemplates(seed);
+    saveLocalTemplates(seed);
     return seed;
   } catch (e) {
     return [];
   }
 }
 
-function saveTemplates(templates) {
+function saveLocalTemplates(templates) {
   localStorage.setItem(STORAGE_KEYS.templates, JSON.stringify(templates));
+}
+
+async function saveTemplates(templates) {
+  saveLocalTemplates(templates);
+  if (typeof cloudUser !== 'undefined' && cloudUser) {
+    try {
+      await cloudSaveTemplates(templates);
+    } catch (e) {
+      console.warn('Cloud save failed, kept locally', e);
+      showToast('Saved locally — cloud sync failed.', true);
+    }
+  }
 }
 
 function loadSettings() {
@@ -62,6 +84,18 @@ function loadSettings() {
   };
 }
 
-function saveSettings(settings) {
+function saveLocalSettings(settings) {
   localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings));
+}
+
+async function saveSettings(settings) {
+  saveLocalSettings(settings);
+  if (typeof cloudUser !== 'undefined' && cloudUser) {
+    try {
+      await cloudSaveSettings(settings);
+    } catch (e) {
+      console.warn('Cloud save failed, kept locally', e);
+      showToast('Saved locally — cloud sync failed.', true);
+    }
+  }
 }

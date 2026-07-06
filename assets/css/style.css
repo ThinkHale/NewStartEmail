@@ -44,6 +44,14 @@ a { color: var(--color-primary); }
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cloud-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
 }
 
 .brand {
