@@ -7,10 +7,11 @@
 // Leave the placeholder values as-is to keep the app running in
 // localStorage-only mode (no cloud sync, nothing changes).
 const firebaseConfig = {
-  apiKey: 'YOUR_API_KEY',
-  authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
-  projectId: 'YOUR_PROJECT_ID',
-  storageBucket: 'YOUR_PROJECT_ID.appspot.com',
-  messagingSenderId: 'YOUR_SENDER_ID',
-  appId: 'YOUR_APP_ID',
+  apiKey: "AIzaSyA_-afkb4zVpbguw6tXQoNLeIAgdVKY28o",
+  authDomain: "emailgenerator-3e5b2.firebaseapp.com",
+  projectId: "emailgenerator-3e5b2",
+  storageBucket: "emailgenerator-3e5b2.firebasestorage.app",
+  messagingSenderId: "968924996508",
+  appId: "1:968924996508:web:040294a2532ade4f8bde59",
+  measurementId: "G-MBYKMH04GC"
 };
